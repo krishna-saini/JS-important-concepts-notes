@@ -15,9 +15,7 @@ Array.prototype.myReduce = function (cb, initialValue) {
 
 // callback function
 const cb = (accumulator, currentValue, index, array) => {
- 
-
-  return accumulator + currentValue;
+   return accumulator + currentValue;
 };
 
 const result = arr.myReduce(cb, 10);
