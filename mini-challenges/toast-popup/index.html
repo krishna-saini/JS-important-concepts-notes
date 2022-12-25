@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #form {
+        border: 0.5px solid #aaa;
+        width: 300px;
+        margin: 0 auto;
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2rem;
+      }
+
+      .toast-container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        position: fixed;
+      }
+
+      #tc-left-top {
+        left: 1rem;
+        top: 1rem;
+      }
+
+      #tc-left-bottom {
+        left: 1rem;
+        bottom: 1rem;
+      }
+
+      #tc-right-top {
+        right: 1rem;
+        top: 1rem;
+      }
+
+      #tc-right-bottom {
+        right: 1rem;
+        bottom: 1rem;
+      }
+
+      .toast-container #toast {
+        visibility: hidden; /* Hidden by default. Visible on click */
+        /* width: fit-content; */
+        /* height: fit-content; */
+        padding: 0.5rem 1rem;
+        display: flex;
+        gap: 10px;
+        animation: appearFromRight 0.1s ease-in forwards;
+      }
+
+      .toast-container #toast.show {
+        visibility: visible; /* Show the snackbar */
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Toast popup</h1>
+    <form action="" id="form" type="submit ">
+      <div>
+        <select name="" id="horizontal">
+          <option value="right">Right</option>
+          <option value="left">Left</option>
+        </select>
+      </div>
+      <div>
+        <select name="" id="vertical">
+          <option value="top">Top</option>
+          <option value="bottom" selected="selected">Bottom</option>
+        </select>
+      </div>
+
+      <div>
+        <select name="" id="status">
+          <option value="success">Success</option>
+          <option value="error" selected="selected">Error</option>
+          <option value="warning">Warning</option>
+          <option value="info">Info</option>
+        </select>
+      </div>
+      <div>
+        <label for="inputmsg">Message to display</label
+        ><input type="text" id="inputmsg" value="This is a TOAST message" />
+      </div>
+
+      <div>
+        <label for="duration">duration(s)</label>
+        <input
+          type="range"
+          id="duration"
+          name="duration"
+          min="2"
+          max="10"
+          value="5"
+          step="1"
+        />
+      </div>
+
+      <button id="btn">Show Toast</button>
+    </form>
+    <div class="toast-container" id="tc-left-top"></div>
+    <div class="toast-container" id="tc-left-bottom"></div>
+    <div class="toast-container" id="tc-right-top"></div>
+    <div class="toast-container" id="tc-right-bottom"></div>
+  </body>
+
+  <script>
+    // selecting all input
+    const hPos = document.querySelector("#horizontal");
+    const vPos = document.querySelector("#vertical");
+    const status = document.querySelector("#status");
+    const msg = document.querySelector("#inputmsg");
+    const duration = document.querySelector("#duration");
+    const form = document.querySelector("#form");
+    const toastContainer = document.querySelector("#toast-container");
+    const tcLeftTop = document.querySelector("#tc-left-top");
+    const tcLeftBottom = document.querySelector("#tc-left-bottom");
+    const tcRightTop = document.querySelector("#tc-right-top");
+    const tcRightBottom = document.querySelector("#tc-right-bottom");
+    let tcSelected;
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      // SHOW TOAST
+      displayToast();
+    });
+
+    const displayToast = () => {
+      // creating toast  element
+      const html = `<div id="toast"><span id="toast-text">${msg.value}</span><button id="toast-btn">close</close></div>`;
+
+      // for lefttop
+      if (hPos.value === "left" && vPos.value === "top") {
+        tcLeftTop.insertAdjacentHTML("beforeend", html);
+        tcSelected = tcLeftTop;
+      }
+      // for leftBottom
+      if (hPos.value === "left" && vPos.value === "bottom") {
+        tcLeftBottom.innerHTML += html;
+        tcSelected = tcLeftBottom;
+      }
+      // for right top
+      if (hPos.value === "right" && vPos.value === "top") {
+        tcRightTop.innerHTML += html;
+        tcSelected = tcRightTop;
+      }
+      // for right bottom
+      if (hPos.value === "right" && vPos.value === "bottom") {
+        tcRightBottom.innerHTML += html;
+        tcSelected = tcRightBottom;
+      }
+
+      // make the toast visible
+      tcSelected.lastChild.classList.add("show");
+
+      // set bcg
+      switch (status.value) {
+        case "success": {
+          tcSelected.lastChild.style.backgroundColor = "green";
+          break;
+        }
+        case "error": {
+          tcSelected.lastChild.style.backgroundColor = "red";
+          break;
+        }
+        case "warning": {
+          tcSelected.lastChild.style.backgroundColor = "orange";
+          break;
+        }
+        case "info": {
+          tcSelected.lastChild.style.backgroundColor = "yellow";
+        }
+      }
+
+      // timer on toast button
+      const timer = duration.value;
+      setTimeout(() => {
+        // remove the last child
+        if (tcSelected.lastChild) {
+          tcSelected.removeChild(tcSelected.lastChild);
+        }
+      }, timer * 1000);
+
+      // toast close functionality
+      // use event delegation
+      tcSelected.addEventListener("click", (e) => {
+        // check if event occus on button only
+        if (e.target.tagName === `BUTTON`) {
+            // REMOVE THAT TOAST
+          e.target.parentNode.remove();
+        }
+      });
+    };
+  </script>
+</html>
