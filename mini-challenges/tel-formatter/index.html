@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>tEL FORMATTER</h1>
+    <input type="tel" name="" id="input" value=""   />
+  </body>
+  <script>
+    let inputEl = document.querySelector("#input");
+
+    inputEl.addEventListener("input", (e) => {
+      console.log(e.target.value);
+      let formattedNumber = formatPhoneNumber(e.target.value);
+      inputEl.value = formattedNumber;
+    });
+
+    const formatPhoneNumber = (value) => {
+      // check for falsy values, this is to handle if user deletes the input
+      if (!value) return value;
+
+      // check if first value is 0
+
+      // scrap the phone no. for any non digit values
+      let phoneNumber = value.replace(/[^\d]/g, "");
+
+      // format it
+
+      // if lenght is < 4
+      if (phoneNumber.length < 4) {
+        return phoneNumber;
+      }
+      // if length > 3
+      if (phoneNumber.length > 3) {
+        return `+ (${phoneNumber.slice(0, 3)}) - ${phoneNumber.slice(3,10)}`;
+      }
+    };
+  </script>
+</html>
