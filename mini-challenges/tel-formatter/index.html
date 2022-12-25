@@ -11,30 +11,36 @@
     <input type="tel" name="" id="input" value=""   />
   </body>
   <script>
+    // select the inputEl
     let inputEl = document.querySelector("#input");
 
+    // do you think if we can use "change" event here?? => HW
     inputEl.addEventListener("input", (e) => {
-      console.log(e.target.value);
+        // format the input
       let formattedNumber = formatPhoneNumber(e.target.value);
+
+      // display formatter number 
       inputEl.value = formattedNumber;
     });
 
+
+    // function to format the number
     const formatPhoneNumber = (value) => {
-      // check for falsy values, this is to handle if user deletes the input
+      // 1. check for falsy values, this is to handle if user deletes the input
       if (!value) return value;
 
-      // check if first value is 0
+      // 2. check if first value is 0  => Homework
 
-      // scrap the phone no. for any non digit values
+      // 3. scrap the value for any non digit values
       let phoneNumber = value.replace(/[^\d]/g, "");
 
       // format it
 
-      // if lenght is < 4
+      // 4. if lenght is < 4, just return the value as it is
       if (phoneNumber.length < 4) {
         return phoneNumber;
       }
-      // if length > 3
+      // 5. if length > 3, format it as per our need
       if (phoneNumber.length > 3) {
         return `+ (${phoneNumber.slice(0, 3)}) - ${phoneNumber.slice(3,10)}`;
       }
