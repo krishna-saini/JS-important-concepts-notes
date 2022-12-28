@@ -124,6 +124,7 @@
     const tcRightTop = document.querySelector("#tc-right-top");
     const tcRightBottom = document.querySelector("#tc-right-bottom");
     let tcSelected;
+    let allTcSelected = [];
 
     form.addEventListener("submit", (e) => {
       e.preventDefault();
@@ -180,19 +181,18 @@
 
       // timer on toast button
       const timer = duration.value;
+     
       setTimeout(() => {
-        // remove the last child
-        if (tcSelected.lastChild) {
-          tcSelected.removeChild(tcSelected.lastChild);
-        }
+        tcSelected.lastChild.remove()
       }, timer * 1000);
 
+      
       // toast close functionality
       // use event delegation
       tcSelected.addEventListener("click", (e) => {
         // check if event occus on button only
         if (e.target.tagName === `BUTTON`) {
-            // REMOVE THAT TOAST
+          // REMOVE THAT TOAST
           e.target.parentNode.remove();
         }
       });
