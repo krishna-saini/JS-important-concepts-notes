@@ -1,0 +1,25 @@
+.star-container{
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #000;
+    width: fit-content;
+    padding: 0 5px;
+    
+}
+
+.star{
+    font-size: 3rem;
+    cursor: pointer;
+}
+
+.star-empty::before {
+    content: '☆';
+   
+}
+
+.star-filled::before{
+    content:'★';
+    color: rgba(231, 198, 10, 0.685);
+}
